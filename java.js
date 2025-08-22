@@ -19,12 +19,7 @@ function login() {
 
                 return false;
 }
-function logout() {
-    if(localStorage.getItem("isOwner") !== "true") {
-        alert("Access denied. Only the owner can access this page.");
-    window.location.href = 'index.html';
-    }
-}
+
 let menu = document.querySelector('#menu-icon');
 let navmenu = document.querySelector('.navmenu');
 
