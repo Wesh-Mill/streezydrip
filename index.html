@@ -31,12 +31,16 @@
         </ul>
 
         <div class="nav-icon">
-            <a href="#"><i class='bx bx-search'></i></a>
+            <a href="#" onclick="toggleSearchBar(event);"><i class='bx bx-search'></i></a>
             <a href="#"><i class='bx bx-user'></i></a>
             <a href="#"><i class='bx bx-cart'></i></a>
             <a href="#"><i class='bx bx-menu'></i></a>
         </div>
     </header>
+    <div id="search-bar" style="display:none; text-align:center; margin:20px;">
+        <input type="text" id="searchInput" placeholder="Rechercher un produit..." style="padding:8px;">
+        <button onclick="searchProduct()">Recherche</button>
+    </div>
 
     <section class="main-Home">
         <div class="main-text">

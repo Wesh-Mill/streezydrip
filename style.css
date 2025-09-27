@@ -58,6 +58,17 @@ header {
     z-index: 10001;
     cursor: pointer;
 }
+#search-bar {
+    position: absolute;
+    top: 90px; /* ajuste selon la hauteur de ton header */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
 section{
     padding: 5% 10%;
     
