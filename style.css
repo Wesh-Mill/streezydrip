@@ -18,6 +18,79 @@ header {
     justify-content: space-between;
     padding: 20px 10%;
 }
+.profile-container {
+
+    display: flex;
+    position: fixed;
+    margin: 80px auto;
+    border: 1px solid #ddd;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    top: 75px; /* ajuste selon la hauteur de ton header */
+    left: 70%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.623);
+    padding: 15px;
+    width: 350px;
+    border-radius: 30px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.527);
+}
+
+/* Sidebar */
+.profile-sidebar {
+    width: 250px;
+    background-color: #ffffffc4;
+    border-right: 1px solid #000000;
+    padding: 20px;
+}
+
+.profile-sidebar .user-info {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-sidebar .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.profile-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profile-menu li {
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.profile-menu li:hover,
+.profile-menu li.active {
+    background-color: #c7fd06;
+}
+#profile-panel.open {
+    display: block;
+}
+
+/* Content */
+.profile-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.profile-section {
+  display: none;
+}
+
+.profile-section.active {
+  display: block;
+}
+
 .logo img{
     max-width: 200px;
     height: auto;
@@ -59,15 +132,39 @@ header {
     cursor: pointer;
 }
 #search-bar {
-    position: absolute;
-    top: 90px; /* ajuste selon la hauteur de ton header */
+    position: fixed;
+    top: 75px; /* ajuste selon la hauteur de ton header */
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
-    background: white;
+    background: rgba(255, 255, 255, 0);
+    padding: 7px;
+    width: 315px;
+    display: flex;
+    border-radius: 15px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.527);
+}
+#search-bar input {
+    border: none;
+    outline: none;
     padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    font-size: 16px;
+    border-radius: 15px;
+    width: 200px;
+}
+#search-bar button {
+    border: none;
+    background: #C9FD06;
+    padding: 7px 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}  
+#search-bar button:hover {
+    background-color: #C9FD06;
+    color: #000000;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.527);
+    transform: scale(1.1);
 }
 section{
     padding: 5% 10%;

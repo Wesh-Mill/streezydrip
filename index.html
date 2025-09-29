@@ -32,7 +32,7 @@
 
         <div class="nav-icon">
             <a href="#" onclick="toggleSearchBar(event);"><i class='bx bx-search'></i></a>
-            <a href="#"><i class='bx bx-user'></i></a>
+            <a href="#" onclick="toggleProfilePanel(event);"><i class='bx bx-user'></i></a>
             <a href="#"><i class='bx bx-cart'></i></a>
             <a href="#"><i class='bx bx-menu'></i></a>
         </div>
@@ -41,6 +41,50 @@
         <input type="text" id="searchInput" placeholder="Rechercher un produit..." style="padding:8px;">
         <button onclick="searchProduct()">Recherche</button>
     </div>
+
+    <div id="profile-panel" style="display:none; text-align:center; margin:20px;">
+        <div class="profile-container">
+            <!-- Sidebar -->
+            <div class="profile-sidebar">
+                <div class="user-info">
+                    <img src="public/image/W.JPG" alt="Avatar" class="avatar">
+                    <h3>Profil</h3>
+                    <p>Wesh Mill</p>
+                </div>
+                <ul class="profile-menu">
+                <li data-section="orders" class="active">Mes commandes</li>
+                <li data-section="addresses">Adresse</li>
+                <li data-section="settings">Paramètres</li>
+                <li data-section="logout">Déconnexion</li>
+                </ul>
+            </div>
+        
+
+            <!-- Content -->
+            <div class="profile-content">
+                <div id="orders" class="profile-section active">
+                <h2>Mes commandes</h2>
+                <p>Vous n'avez pas encore de commande.</p>
+                </div>
+
+                <div id="addresses" class="profile-section">
+                <h2>Mes adresses</h2>
+                <p>Ajoutez vos adresses ici.</p>
+                </div>
+
+                <div id="settings" class="profile-section">
+                <h2>Paramètres du compte</h2>
+                <p>Modifiez votre mot de passe, email, etc.</p>
+                </div>
+
+                <div id="logout" class="profile-section">
+                <h2>Déconnexion</h2>
+                <button>Se déconnecter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <section class="main-Home">
         <div class="main-text">

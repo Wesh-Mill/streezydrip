@@ -33,16 +33,22 @@ function toggleSearchBar() {
 }
 
 function searchProduct() {
-    const input = document.getElementById('searchInput').value.toLowerCase();
-    const rows = document.querySelectorAll('.Products .row');
-    rows.forEach(row => {
-        const productName = row.querySelector('.price h4');
-        if (productName && productName.textContent.toLowerCase().includes(input)) {
-            row.style.display = 'block';
-        } else {
-            row.style.display = 'none';
-        }
-    });
-    // Fait défiler vers la section produits
+  const input = document.getElementById('searchInput').value.trim().toLowerCase();
+  const rows = document.querySelectorAll('.Products .row');
+
+  rows.forEach(row => {
+    const productNameEl = row.querySelector('.price h4');
+    const productName = productNameEl ? productNameEl.textContent.toLowerCase() : '';
+    // affiche ou cache chaque produit
+    row.style.display = productName.includes(input) ? 'block' : 'none';
+  });
+
+  // si besoin, scroll vers la section produits
+  if (input.length > 0) {
     document.getElementById('trending').scrollIntoView({ behavior: 'smooth' });
+  }
+}
+function toggleProfilePanel() {
+    const bar = document.getElementById('profile-panel');
+    bar.style.display = (bar.style.display === 'none') ? 'block' : 'none';
 }
