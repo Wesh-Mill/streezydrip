@@ -18,11 +18,12 @@ header {
     justify-content: space-between;
     padding: 20px 10%;
 }
+
 .profile-container {
 
     display: flex;
-    position: fixed;
-    margin: 80px auto;
+    position: absolute;
+    margin: 20px auto;
     border: 1px solid #ddd;
     overflow: hidden;
     font-family: Arial, sans-serif;
@@ -96,7 +97,7 @@ header {
     height: auto;
 }
 .navmenu{
-    display: flex;;
+    display: flex;
 }
 .navmenu a{
     color: #2C2C2C;
@@ -120,6 +121,7 @@ header {
     font-size: 20px;
     font-weight: 400;
     transition: all .42s ease;
+    width: 11px;
 }
 .nav-icon i:hover{
     transform: scale(1.1);
@@ -131,15 +133,58 @@ header {
     z-index: 10001;
     cursor: pointer;
 }
+#login-panel {
+    position: fixed;
+    top: 80px; /* ajuste selon la hauteur de ton header */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.623);
+    padding: 20px;
+    width: 300px;
+    border-radius: 15px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.527);
+}
+#login-username {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+#login-password {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+#login-panel button {
+    width: 80%;
+    padding: 8px;
+    background-color: #C9FD06;
+    border: none;
+    border-radius: 5px;
+    color: #000000;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+#login-panel button:hover {
+    background-color: #C9FD06;
+    color: #000000;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.527);
+    transform: scale(1.1);
+}
 #search-bar {
     position: fixed;
-    top: 75px; /* ajuste selon la hauteur de ton header */
+    top: 80px; /* ajuste selon la hauteur de ton header */
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
     background: rgba(255, 255, 255, 0);
     padding: 7px;
-    width: 315px;
+    width: 310px;
     display: flex;
     border-radius: 15px;
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.527);
@@ -147,9 +192,10 @@ header {
 #search-bar input {
     border: none;
     outline: none;
-    padding: 10px;
+    padding: 20px;
     font-size: 16px;
     border-radius: 15px;
+    border: #302e2e28 2px solid;
     width: 200px;
 }
 #search-bar button {
@@ -216,6 +262,7 @@ section{
     background-color: #C9FD06;
     color: #000000;
     transform: scale(1.1);
+    transition: all .42s ease;
 }
 .main-btn i{
     vertical-align: middle;
@@ -281,6 +328,25 @@ header{
     background-color: #C9FD06;
     padding: 3px 10px;
     border-radius: 2px;
+}
+.Products-text a{
+    position: absolute;
+    bottom: 13px;
+    right: 13px;
+    color: #111;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    background-color: #C9FD06;
+    padding: 3px 10px;
+    border-radius: 2px;
+    transition: all .42s ease;
+}
+.Products-text a:hover{
+    background-color: #C9FD06;
+    color: #000000;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.527);
+    transform: scale(1.1);
 }
 .heart-icon{
     position: absolute;

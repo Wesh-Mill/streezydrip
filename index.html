@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MY STORE</title>
+    <title>Wesh Mill</title>
     <!-- CSS-link  -->
     <link rel="stylesheet" href="style.css">
     
@@ -23,23 +23,38 @@
 
         <ul class="navmenu">
             <li><a href="#">Home</a></li>
-            <li><a href="#">Shop</a></li>
-            <li><a href="#">Products</a></li>
+            <li><a href="#trending">Shop</a></li>
+            <li><a href="#trending">Products</a></li>
             <li><a href="#">Page</a></li>
             <li><a href="#">Docs</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="#* ">Contact</a></li>
         </ul>
 
         <div class="nav-icon">
             <a href="#" onclick="toggleSearchBar(event);"><i class='bx bx-search'></i></a>
-            <a href="#" onclick="toggleProfilePanel(event);"><i class='bx bx-user'></i></a>
-            <a href="#"><i class='bx bx-cart'></i></a>
+            <a href="#" onclick="toggleLoginPanel(); return false;"><i class='bx bx-user'></i></a>
+            <a href="#" onclick="toggleCartPanel(); return false;"><i class='bx bx-cart'></i></a>
             <a href="#"><i class='bx bx-menu'></i></a>
-        </div>
+        </div>  
     </header>
     <div id="search-bar" style="display:none; text-align:center; margin:20px;">
-        <input type="text" id="searchInput" placeholder="Rechercher un produit..." style="padding:8px;">
+        <input type="text" id="searchInput" placeholder="Rechercher un produit..." style="padding:8px;" oninput="searchProduct()">
         <button onclick="searchProduct()">Recherche</button>
+    </div>
+    <div id="cart-panel" style="display:none; position:fixed; top:90px; right:30px; z-index:1000; background:#fff; border-radius:15px; box-shadow:0 5px 10px rgba(0,0,0,0.2); width:350px; padding:20px;">
+        <h2>Mon Panier</h2>
+        <div id="cart-items"></div>
+        <p id="cart-total"></p>
+        <button onclick="checkoutCart()">Payer</button>
+        <button onclick="toggleCartPanel()">Fermer</button>
+    </div>
+    <!-- Ajoute ce bloc juste après </header> -->
+    <div id="login-panel" style="display:none; text-align:center; margin:20px;">
+        <h2>Connexion</h2>
+        <input type="text" id="login-username" placeholder="Nom d'utilisateur" style="padding:8px; margin:5px;">
+        <input type="password" id="login-password" placeholder="Mot de passe" style="padding:8px; margin:5px;">
+        <button onclick="loginUser()">Se connecter</button>
+        <p id="login-error" style="color:red;"></p>
     </div>
 
     <div id="profile-panel" style="display:none; text-align:center; margin:20px;">
@@ -48,14 +63,14 @@
             <div class="profile-sidebar">
                 <div class="user-info">
                     <img src="public/image/W.JPG" alt="Avatar" class="avatar">
-                    <h3>Profil</h3>
+                    <h3></h3>
                     <p>Wesh Mill</p>
                 </div>
                 <ul class="profile-menu">
                 <li data-section="orders" class="active">Mes commandes</li>
                 <li data-section="addresses">Adresse</li>
                 <li data-section="settings">Paramètres</li>
-                <li data-section="logout">Déconnexion</li>
+                <button onclick="logoutUser()">Déconnexion</button>
                 </ul>
             </div>
         
@@ -93,12 +108,13 @@
             <p>AW BISMILLAH</p>
             <p>AW NAN BE KOU</p>
 
-            <a href="#" class="main-btn">Shop Now <i class='bx bx-right-arrow-alt'></i></a>
+            <a href="#trending" class="main-btn">Shop Now <i class='bx bx-right-arrow-alt'></i></a>
 
         </div>
 
         <div class="down-arrow">
             <a href="#trending" class='down'><i class='bx bx-down-arrow-alt'></i></a>
+        </div>
     </section>
 
     <!-- trending-Products-section -->
@@ -110,10 +126,12 @@
 
         <div class="Products">
             <div class="row">
-                <img src="./public/image/1.jpg" alt="1">
+                <a href="#" onclick="showProductModal('./public/image/1.jpg', 'Half Running Set', '$99 - $129'); return false;">
+                    <img src="./public/image/1.jpg" alt="1">
+                </a>
                 <div class="Products-text">
                     <h5>New</h5>
-                    <a href="https://wa.me/22397290271?text=Salut%20je%20veux%20ce%20produit" class="btn">Add to Cart</a>
+                    <a href="#" class="btn" onclick="addToCart('Half Running Set', '99')">Add to Cart</a>
                 </div>
                 <div class="heart-icon">
                     <i class='bx bx-heart'></i>
@@ -131,7 +149,9 @@
             </div>
 
             <div class="row">
-                <img src="./public/image/2.jpg" alt="">
+                <a href="#" onclick="showProductModal('./public/image/2.jpg', 'ZEINAB', '$99 - $129'); return false;">
+                    <img src="./public/image/2.jpg" alt="">
+                </a>
                 <div class="Products-text">
                     <h5>New</h5>
                     <a href="#" class="btn">Add to Cart</a>
@@ -147,16 +167,18 @@
                 </div>
 
                 <div class="price">
-                    <h4>Formal Men Lowers</h4>
+                    <h4>ZEINAB</h4>
                     <p>$99 - $129</p>
                 </div>
             </div>
 
             <div class="row">
+                <a href="#" onclick="showProductModal('./public/image/3.jpg', 'Half Set', '$99 - $129'); return false;">
                 <img src="./public/image/3.jpg" alt="">
+                </a>
                 <div class="Products-text">
                     <h5>New</h5>
-                    <a href="https://wa.me/22397290271?text=Salut%20je%20veux%20ce%20produit" class="btn">Add to Cart</a>
+                    <a href="#" class="btn">Add to Cart</a>
                 </div>
                 <div class="heart-icon">
                     <i class='bx bx-heart'></i>
@@ -174,7 +196,9 @@
             </div>
 
             <div class="row">
-                <img src="./public/image/4.jpg" alt="">
+                <a href="#" onclick="showProductModal('./public/image/4.jpg', 'Innocent_0.5', '$99 - $129'); return false;">
+                    <img src="./public/image/4.jpg" alt="">
+                </a>
                 <div class="Products-text">
                     <h5>New</h5>
                     <a href="#" class="btn">Add to Cart</a>
@@ -190,16 +214,18 @@
                 </div>
 
                 <div class="price">
-                    <h4>Formal Lowers</h4>
+                    <h4>Innocent_0.5</h4>
                     <p>$99 - $129</p>
                 </div>
             </div>
 
             <div class="row">
-                <img src="./public/image/5.jpg" alt="">
+                <a href="#" onclick="showProductModal('./public/image/5.jpg', 'Wesh Mill', '$99 - $129'); return false;">
+                    <img src="./public/image/5.jpg" alt="">
+                </a>
                 <div class="Products-text">
                     <h5>New</h5>
-                    <a href="https://wa.me/22397290271?text=Salut%20je%20veux%20ce%20produit" class="btn">Add to Cart</a>
+                    <a href="#" class="btn">Add to Cart</a>
                 </div>
                 <div class="heart-icon">
                     <i class='bx bx-heart'></i>
@@ -217,7 +243,9 @@
             </div>
 
             <div class="row">
-                <img src="./public/image/6.jpg" alt="">
+                <a href="#" onclick="showProductModal('./public/image/6.jpg', 'Innocent_0.5', '$99 - $129'); return false;">
+                    <img src="./public/image/6.jpg" alt="">
+                </a>
                 <div class="Products-text">
                     <h5>New</h5>
                     <a href="#" class="btn">Add to Cart</a>
@@ -239,10 +267,12 @@
             </div>
 
             <div class="row">
-                <img src="./public/image/1.jpg" alt="">
+                <a href="#" onclick="showProductModal('./public/image/1.jpg', 'Lola', '$99 - $129'); return false;">
+                    <img src="./public/image/1.jpg" alt="">
+                </a>
                 <div class="Products-text">
                     <h5>New</h5>
-                    <a href="https://wa.me/22397290271?text=Salut%20je%20veux%20ce%20produit" class="btn">Add to Cart</a>
+                    <a href="#" class="btn">Add to Cart</a>
                 </div>
                 <div class="heart-icon">
                     <i class='bx bx-heart'></i>
@@ -254,13 +284,15 @@
                     <i class='bx bxs-star-half'></i>
                 </div>
                 <div class="price">
-                    <h4>Half Running Set</h4>
+                    <h4>Lola</h4>
                     <p>$99 - $129</p>
                 </div>
             </div>
 
             <div class="row">
-                <img src="./public/image/2.jpg" alt="">
+                <a href="#" onclick="showProductModal('./public/image/2.jpg', 'La Reine', '$99 - $129'); return false;">
+                    <img src="./public/image/2.jpg" alt="">
+                </a>
                 <div class="Products-text">
                     <h5>New</h5>
                     <a href="#" class="btn">Add to Cart</a>
@@ -276,7 +308,7 @@
                 </div>
 
                 <div class="price">
-                    <h4>Formal Men Lowers</h4>
+                    <h4>La Reine</h4>
                     <p>$99 - $129</p>
                 </div>
             </div>
@@ -330,7 +362,7 @@
     </section>
 
     <!-- contact-section -->
-     <section class="contact">
+     <section class="contact" id="Contact">
         <div class="contact-info">
             <div class="first-contact">
                 <img src="./public/image/logo.png" alt="">
@@ -384,7 +416,42 @@
     </section>
 
     <div class="end-text">
-        <p>Copyright  @2025. All Rights Reserved.Designed By Wesh Mill </p>
+        <p>Copyright  @2025. All Rights Reserved.Designed By Mamadou Doumbia </p>
+    </div>
+
+    <div id="product-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:2000; align-items:center; justify-content:center;">
+        <div style="background:#fff; padding:30px; border-radius:10px; max-width:350px; margin:auto; position:relative;">
+            <span onclick="closeProductModal()" style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:22px;">&times;</span>
+            <img id="modal-img" src="" alt="" style="width:100%; border-radius:8px;">
+            <h3 id="modal-title"></h3>
+            <p id="modal-price"></p>
+            <!-- Dans ton modal produit -->
+            <a id="modal-whatsapp" href="#" target="_blank" style="display:inline-block; margin-top:10px; background:#25D366; color:#fff; padding:10px 20px; border-radius:5px; text-decoration:none;"><i class='bx bxl-whatsapp'></i> Commander sur WhatsApp</a>
+            <a id="modal-add-cart" href="#" style="display:inline-block; margin-top:10px; margin-left:10px; background:#C9FD06; color:#000000; padding:10px 20px; border-radius:5px; border:none; cursor:pointer;"><i class='bx bx-cart'></i> Ajouter au panier</a>
+        </div>
+    </div>
+
+    <div id="contact-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:2000; align-items:center; justify-content:center;">
+        <div style="background:#fff; padding:30px; border-radius:10px; max-width:350px; margin:auto; position:relative;">
+            <span onclick="closeProductModal()" style="position:absolute; top:10px; right:15px; cursor:pointer; font-size:22px;">&times;</span>
+            <!-- Dans ton modal produit -->
+            <a id="modal-whatsapp" href="#" target="_blank"
+                style="display:inline-block; margin-top:10px; background:#25D366; color:#fff; padding:10px 20px; border-radius:5px; text-decoration:none;">
+                <i class='bx bxl-whatsapp'></i> Commander sur WhatsApp
+            </a>
+            <a id="modal-instagram" href="#" target="_blank"
+                style="display:inline-block; margin-top:10px; margin-left:10px; background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5); color:#fff; padding:10px 20px; border-radius:5px; border:none; cursor:pointer; text-decoration:none;">
+                <i class='bx bxl-instagram'></i> Discuter sur Instagram
+            </a>
+            <a id="modal-snapchat" href="#" target="_blank"
+                style="display:inline-block; margin-top:10px; margin-left:10px; background: #FFFC00; color:#000; padding:10px 20px; border-radius:5px; border:none; cursor:pointer; text-decoration:none;">
+                <i class='bx bxl-snapchat'></i> Discuter sur Snapchat
+            </a>
+            <a id="modal-facebook" href="#" target="_blank"
+               style="display:inline-block; margin-top:10px; margin-left:10px; background: #1877F3; color:#fff; padding:10px 20px; border-radius:5px; border:none; cursor:pointer; text-decoration:none;">
+               <i class='bx bxl-facebook'></i> Discuter sur Facebook
+            </a>
+        </div>
     </div>
 
         
