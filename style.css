@@ -302,7 +302,7 @@ header{
 }
 .Products{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px,  auto));
+    grid-template-columns: repeat(auto-fit, minmax(100px,  auto));
     gap: 2rem;
 }
 .row{
@@ -319,10 +319,10 @@ header{
 }
 .Products-text h5{
     position: absolute;
-    top: 13px;
-    left: 13px;
+    top: 8px;
+    left: 5px;
     color: #111;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 500;
     text-transform: uppercase;
     background-color: #C9FD06;
@@ -330,11 +330,13 @@ header{
     border-radius: 2px;
 }
 .Products-text a{
+    display: none;
     position: absolute;
-    bottom: 13px;
-    right: 13px;
+    bottom: 14px;
+    padding: 12px 25px;
+    right: 15px;
     color: #111;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 500;
     text-transform: uppercase;
     background-color: #C9FD06;
@@ -351,7 +353,7 @@ header{
 .heart-icon{
     position: absolute;
     right: 0;
-    font-size: 20px;
+    font-size: 16px;
 }
 .heart-icon:hover{
     color: #ff2b55;
@@ -359,7 +361,7 @@ header{
 }
 .ratting i{
     color: #FF8C00;
-    font-size: 18px;
+    font-size: 16px;
 }
 .price h4{
     color: #111;
