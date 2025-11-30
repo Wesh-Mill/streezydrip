@@ -72,7 +72,7 @@ header {
 
 .profile-menu li:hover,
 .profile-menu li.active {
-    background-color: #c7fd06;
+    background-color: #a8a6a6be;
 }
 #profile-panel.open {
     display: block;
@@ -100,16 +100,16 @@ header {
     display: flex;
 }
 .navmenu a{
-    color: #2C2C2C;
+    color: #000000;
     font-size: 18px;
     text-transform: capitalize;
     padding: 10px 20px;
     font-weight: 400;
     transition: all 0.42s ease;
-    
 }
 .navmenu a:hover{
-    color: #C9FD06;
+    color: #000000;
+    
 }
 .nav-icon{
     display: flex;
@@ -125,7 +125,7 @@ header {
 }
 .nav-icon i:hover{
     transform: scale(1.1);
-    color: #C9FD06;
+    color: #131313;
 }
 #menu-icon{
     font-size: 35px;
@@ -139,7 +139,7 @@ header {
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.623);
+    background: rgb(255, 255, 255);
     padding: 20px;
     width: 300px;
     border-radius: 15px;
@@ -149,30 +149,30 @@ header {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
-    border: 1px solid #ccc;
+    border: 1px solid #ffffff;
     border-radius: 5px;
 }
 #login-password {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
-    border: 1px solid #ccc;
+    border: 1px solid #ffffff;
     border-radius: 5px;
 }
 #login-panel button {
     width: 80%;
     padding: 8px;
-    background-color: #C9FD06;
+    background-color: #000000;
     border: none;
     border-radius: 5px;
-    color: #000000;
+    color: #ffffff;
     font-size: 16px;
     cursor: pointer;
     transition: background 0.3s ease;
 }
 #login-panel button:hover {
-    background-color: #C9FD06;
-    color: #000000;
+    background-color: #000000;
+    color: #ffffff;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.527);
     transform: scale(1.1);
 }
@@ -200,66 +200,71 @@ header {
 }
 #search-bar button {
     border: none;
-    background: #C9FD06;
+    color: #ffffff;
+    background: #000000;
     padding: 7px 10px;
     border-radius: 15px;
     cursor: pointer;
     transition: background 0.3s ease;
 }  
 #search-bar button:hover {
-    background-color: #C9FD06;
-    color: #000000;
+    background-color: #000000;
+    color: #ffffff;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.527);
     transform: scale(1.1);
 }
 section{
     padding: 5% 10%;
+    margin-top: 100px;
     
 }
 .main-Home{
-    width: 100%;
-    height: 100vh;
-    background-image: url("public/image/Fond.png");
-    background-position: center;
+    min-width: 100%;
+    min-height: 100vh;
+    background-image: url("public/image/Fond2.png");
+    background-position: top center;
     background-size: cover;
     display: grid;
     grid-template-columns: repeat(1, 1fr);
+    background-attachment: scroll;
     align-items: center;
 }
 .main-text h5{
-    color: #000000;
+    color: #ffffff;
+    top: 80px;
+    padding: 5% 5%;
     font-size: 18px;
     text-transform: capitalize;
     font-weight: 500;
     text-shadow: #000000 0px 0px 2px;
 }
 .main-text h1{
-    color: #000000;
+    color: #ffffff;
     font-size: 40px;
     text-transform: capitalize;
     line-height: 1.1;
     font-weight: 500;
     text-shadow: #252525 0px 0px 2px;
-    margin: 6px 10px;
+    margin: 6px 5px;
 }
 .main-text p{
-    color: #000000;
+    color: #ffffff;
     font-size: 18px;
     font-style: italic;
     margin-bottom: 20px;
 }
 .main-btn{
     display: inline-block;
-    color: #000000;
+    color: #ffffff;
     font-size: 16px;
     font-weight: 500;
     text-transform: capitalize;
-    border: 2px solid #000000;
+    border: 2px solid #ffffff;
     padding: 12px 25px;
     transition: all .42s ease;
 }
 .main-btn:hover{
-    background-color: #C9FD06;
+    background-color: #ffffff;
     color: #000000;
     transform: scale(1.1);
     transition: all .42s ease;
@@ -274,20 +279,20 @@ section{
 }
 .down i{
     font-size: 30px;
-    color: #000000;
-    border: 2px solid #000000;
+    color: #ffffff;
+    border: 2px solid #ffffff;
     border-radius: 50px;
     padding: 12px 12px;;
 }
 .down i:hover{
-    background-color: #C9FD06;
+    background-color: #ffffff;
     color: #000000;
     transform: scale(1.1);
     transition: all .42s ease;
 }
 header{
-    background-color: #fff;
-    padding: 20px 10%;
+    background-color: #ffffff;
+    padding: 10px 5%;
     box-shadow: 0 0px px rgba(0 0 0 / 10%);
 }
 /* trending-section-css */
@@ -295,7 +300,7 @@ header{
     text-align: center;
     font-size: 20px;
     color: #111;
-    text-transform: capitalize
+    text-transform: capitalize;
 }
 .center-text span{
     color: #fd0606;
@@ -321,13 +326,24 @@ header{
     position: absolute;
     top: 8px;
     left: 5px;
-    color: #111;
+    color: #ffffff;
     font-size: 10px;
     font-weight: 500;
     text-transform: uppercase;
-    background-color: #C9FD06;
+    background-color: #000000;
     padding: 3px 10px;
     border-radius: 2px;
+}
+#cart-panel button {
+    width: 20%;
+    padding: 4px;
+    background-color: #000000;
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
 .Products-text a{
     display: none;
@@ -335,11 +351,11 @@ header{
     bottom: 14px;
     padding: 12px 25px;
     right: 15px;
-    color: #111;
+    color: #ffffff;
     font-size: 10px;
     font-weight: 500;
     text-transform: uppercase;
-    background-color: #C9FD06;
+    background-color: #000000;
     padding: 3px 10px;
     border-radius: 2px;
     transition: all .42s ease;
@@ -360,7 +376,7 @@ header{
     transform: scale(1.1);
 }
 .ratting i{
-    color: #FF8C00;
+    color: #000000;
     font-size: 16px;
 }
 .price h4{
@@ -433,6 +449,7 @@ header{
     font-weight: 500;
     margin-bottom: 5px;
 }
+
 /* contact-section-css */
 .contact{
     background-color: #e9e7e7;
