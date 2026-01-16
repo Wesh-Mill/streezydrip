@@ -1,5 +1,29 @@
-// Configuration de l'API
-const API_URL = 'http://localhost:5000/api';
+// Configuration de l'API - Modifiez cette URL selon votre environnement
+let API_URL = 'http://localhost:5000/api';
+
+// Détecte automatiquement si on est en production ou local
+function initializeAPI() {
+    // Sur localhost ou 127.0.0.1 → utiliser localhost:5000
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        API_URL = 'http://localhost:5000/api';
+    } 
+    // Sur un téléphone/réseau local → utiliser l'adresse IP du PC
+    // À personnaliser avec votre adresse IP locale (ex: 192.168.x.x)
+    else if (window.location.hostname.includes('github.io')) {
+        // En production sur GitHub - à configurer avec votre backend distant
+        // API_URL = 'https://votre-backend-heroku.herokuapp.com/api';
+        console.warn('Backend non configuré pour GitHub Pages. Utilisation du mode hors ligne.');
+    }
+    else {
+        // Sur un réseau local avec IP
+        API_URL = `http://${window.location.hostname}:5000/api`;
+    }
+    
+    console.log('API URL:', API_URL);
+}
+
+// Initialiser au chargement de la page
+document.addEventListener('DOMContentLoaded', initializeAPI);
 
 // ===== AUTHENTIFICATION =====
 
