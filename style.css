@@ -133,18 +133,7 @@ header {
     z-index: 10001;
     cursor: pointer;
 }
-#login-panel {
-    position: fixed;
-    top: 80px; /* ajuste selon la hauteur de ton header */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    background: rgb(255, 255, 255);
-    padding: 20px;
-    width: 300px;
-    border-radius: 15px;
-    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.527);
-}
+
 #login-username {
     width: 100%;
     padding: 10px;
@@ -174,7 +163,7 @@ header {
     background-color: #000000;
     color: #ffffff;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.527);
-    transform: scale(1.1);
+    transition: all .42s ease;
 }
 #search-bar {
     position: fixed;
@@ -221,7 +210,7 @@ section{
 .main-Home{
     min-width: 100%;
     min-height: 100vh;
-    background-image: url("public/image/Fond2.png");
+    background-image: url("public/image/F.png");
     background-position: top center;
     background-size: cover;
     display: grid;
@@ -246,6 +235,27 @@ section{
     font-weight: 500;
     text-shadow: #252525 0px 0px 2px;
     margin: 6px 5px;
+}
+.main-text h2{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #ffffff;
+    font-size: 80px;
+    text-transform: capitalize;
+    line-height: 1.1;
+    font-weight: 500;
+    text-shadow: #252525 1px 1px 2px;
+    margin: 1px 100px;
+}
+.main-text h3{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #ffffff;
+    font-size: 40px;
+    text-transform: capitalize;
+    font-style: italic;
+    line-height: 1.1;
+    font-weight: 500;
+    text-shadow: #252525 1px 1px 2px;
+    margin: 2px 400px;
 }
 .main-text p{
     color: #ffffff;
