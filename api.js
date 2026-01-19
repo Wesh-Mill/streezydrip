@@ -7,12 +7,11 @@ function initializeAPI() {
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
         API_URL = 'http://localhost:5000/api';
     } 
-    // Sur un téléphone/réseau local → utiliser l'adresse IP du PC
-    // À personnaliser avec votre adresse IP locale (ex: 192.168.x.x)
+    // Sur GitHub Pages → utiliser le backend public
     else if (window.location.hostname.includes('github.io')) {
-        // En production sur GitHub - à configurer avec votre backend distant
-        // API_URL = 'https://votre-backend-heroku.herokuapp.com/api';
-        console.warn('Backend non configuré pour GitHub Pages. Utilisation du mode hors ligne.');
+        // ⚠️ À REMPLACER avec l'URL de ton backend déployé (Railway, Render, etc.)
+        API_URL = 'https://streezydrip-backend.railway.app/api';
+        console.log('Mode production - Backend Railway');
     }
     else {
         // Sur un réseau local avec IP
