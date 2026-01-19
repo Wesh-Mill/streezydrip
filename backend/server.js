@@ -51,8 +51,44 @@ function initializeAdminAccount() {
     });
 }
 
-// Initialiser l'admin après 1 seconde (laisser le temps à la DB de se connecter)
-setTimeout(initializeAdminAccount, 1000);
+// Initialiser les produits au démarrage
+function initializeProducts() {
+    const products = [
+        { name: 'Half Running Set', price: 99, category: 'Vêtements', description: 'Ensemble de running demi-complet', image: '/public/image/1.jpg', stock: 50 },
+        { name: 'ZEINAB', price: 99, category: 'Vêtements', description: 'Collection ZEINAB premium', image: '/public/image/2.jpg', stock: 50 },
+        { name: 'Half Set', price: 99, category: 'Vêtements', description: 'Ensemble demi-complet', image: '/public/image/3.jpg', stock: 50 },
+        { name: 'Innocent_0.5', price: 99, category: 'Vêtements', description: 'Collection Innocent', image: '/public/image/4.jpg', stock: 50 },
+        { name: 'Wesh Mill', price: 99, category: 'Vêtements', description: 'Collection Wesh Mill', image: '/public/image/5.jpg', stock: 50 },
+        { name: 'Binta Dollars', price: 99, category: 'Vêtements', description: 'Binta Dollars exclusive', image: '/public/image/6.jpg', stock: 50 },
+        { name: 'Lola', price: 99, category: 'Vêtements', description: 'Collection Lola', image: '/public/image/7.jpg', stock: 50 },
+        { name: 'La Reine', price: 99, category: 'Vêtements', description: 'Collection La Reine', image: '/public/image/8.jpg', stock: 50 }
+    ];
+
+    // Vérifier si les produits existent
+    db.get('SELECT COUNT(*) as count FROM products', (err, result) => {
+        if (err || result.count === 0) {
+            console.log('Initialisation des produits...');
+            products.forEach((product) => {
+                db.run(
+                    'INSERT OR IGNORE INTO products (name, price, description, image, category, stock) VALUES (?, ?, ?, ?, ?, ?)',
+                    [product.name, product.price, product.description, product.image, product.category, product.stock],
+                    (err) => {
+                        if (err) console.error(`Erreur produit ${product.name}:`, err);
+                    }
+                );
+            });
+            console.log('✅ Produits initialisés');
+        } else {
+            console.log(`✅ ${result.count} produits trouvés`);
+        }
+    });
+}
+
+// Initialiser au démarrage après 500ms (laisser le temps à la DB de se connecter)
+setTimeout(() => {
+    initializeAdminAccount();
+    initializeProducts();
+}, 500);
 
 // Routes
 app.use('/api/auth', authRoutes);
