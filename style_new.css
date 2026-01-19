@@ -1,0 +1,640 @@
+/* ====================================
+   STREEZY DRIP - MODERN DESIGN
+   Responsive, Professional, SEO-friendly
+   ==================================== */
+
+/* ROOT VARIABLES */
+:root {
+    --primary-color: #C9FD06;
+    --secondary-color: #25D366;
+    --dark-bg: #1a1a1a;
+    --light-bg: #f9f9f9;
+    --text-dark: #333;
+    --text-light: #666;
+    --border-color: #e0e0e0;
+    --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* ====================================
+   RESET & GLOBAL STYLES
+   ==================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', 'Jost', sans-serif;
+    color: var(--text-dark);
+    background: #fff;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ====================================
+   HEADER & NAVIGATION
+   ==================================== */
+
+header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 5%;
+    background: #fff;
+    box-shadow: var(--shadow);
+}
+
+header.sticky {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+}
+
+.logo img {
+    height: 40px;
+    width: auto;
+}
+
+.navmenu {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.navmenu a {
+    font-weight: 500;
+    color: var(--text-dark);
+    position: relative;
+}
+
+.navmenu a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+.navmenu a:hover::after {
+    width: 100%;
+}
+
+.nav-icon {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.nav-icon a {
+    font-size: 24px;
+    color: var(--text-dark);
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-icon a:hover {
+    color: var(--primary-color);
+}
+
+#menu-icon {
+    display: none;
+    font-size: 28px;
+}
+
+/* ====================================
+   HERO SECTION
+   ==================================== */
+
+.main-Home {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    text-align: center;
+    padding: 80px 20px 40px;
+    position: relative;
+}
+
+.main-Home::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="1200" height="600" fill="url(%23grid)" /></svg>');
+    opacity: 0.1;
+}
+
+.main-text {
+    position: relative;
+    z-index: 1;
+}
+
+.main-text h1 {
+    font-size: clamp(48px, 8vw, 72px);
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.main-text h2 {
+    font-size: clamp(36px, 6vw, 60px);
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.main-text h3 {
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.main-text h5 {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    opacity: 0.8;
+}
+
+.main-text p {
+    font-size: 18px;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+.main-btn {
+    display: inline-block;
+    padding: 14px 35px;
+    background: var(--primary-color);
+    color: #000;
+    font-weight: 600;
+    border-radius: 50px;
+    margin-top: 30px;
+    box-shadow: 0 4px 15px rgba(201, 253, 6, 0.4);
+    transition: all 0.3s ease;
+}
+
+.main-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(201, 253, 6, 0.6);
+}
+
+.down-arrow {
+    position: absolute;
+    bottom: 40px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+.down a {
+    font-size: 28px;
+    color: white;
+}
+
+/* ====================================
+   TRENDING PRODUCTS
+   ==================================== */
+
+.trending-Products {
+    padding: 80px 5%;
+    background: var(--light-bg);
+}
+
+.center-text {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.center-text h2 {
+    font-size: clamp(32px, 5vw, 48px);
+    margin-bottom: 15px;
+    color: var(--text-dark);
+}
+
+.center-text span {
+    color: var(--primary-color);
+}
+
+.center-text p {
+    color: var(--text-light);
+    font-size: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.Products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.Products .row {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.Products .row:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+}
+
+.Products .row img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.Products .row:hover img {
+    transform: scale(1.05);
+}
+
+.Products-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.Products-text h5 {
+    background: var(--primary-color);
+    color: #000;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    margin-bottom: 15px;
+}
+
+.Products-text .btn {
+    background: var(--primary-color);
+    color: #000;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.Products .row:hover .Products-text {
+    opacity: 1;
+}
+
+.heart-icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.heart-icon:hover {
+    color: red;
+}
+
+.ratting {
+    position: absolute;
+    bottom: 80px;
+    left: 15px;
+    color: #ffc107;
+    font-size: 16px;
+}
+
+.price {
+    padding: 20px 15px;
+    background: white;
+}
+
+.price h4 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-dark);
+}
+
+.price p {
+    color: var(--text-light);
+    font-size: 14px;
+}
+
+/* ====================================
+   MODALS (Login, Register, Payment)
+   ==================================== */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    backdrop-filter: blur(5px);
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: var(--shadow-lg);
+    max-width: 450px;
+    width: 90%;
+    position: relative;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-content .close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.3s ease;
+}
+
+.modal-content .close:hover {
+    color: #000;
+}
+
+.modal-content h2 {
+    margin-bottom: 25px;
+    color: var(--text-dark);
+    text-align: center;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.modal-content input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(201, 253, 6, 0.1);
+}
+
+.modal-content button {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary-color);
+    color: #000;
+    font-weight: 600;
+    border-radius: 8px;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+.modal-content button:hover {
+    background: #b8e705;
+}
+
+.modal-content p {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+.modal-content a {
+    color: var(--secondary-color);
+    font-weight: 600;
+}
+
+/* ====================================
+   RESPONSIVE DESIGN
+   ==================================== */
+
+@media (max-width: 768px) {
+    header {
+        padding: 15px 3%;
+    }
+
+    .navmenu {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        flex-direction: column;
+        background: white;
+        width: 100%;
+        text-align: center;
+        transition: 0.3s;
+        gap: 0;
+    }
+
+    .navmenu.open {
+        left: 0;
+    }
+
+    .navmenu a {
+        display: block;
+        padding: 15px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    #menu-icon {
+        display: block;
+    }
+
+    .main-Home {
+        padding: 100px 20px 40px;
+    }
+
+    .Products {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .Products .row img {
+        height: 220px;
+    }
+
+    .trending-Products {
+        padding: 60px 3%;
+    }
+
+    .modal-content {
+        padding: 30px 20px;
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 10px 2%;
+    }
+
+    .logo img {
+        height: 35px;
+    }
+
+    .nav-icon {
+        gap: 12px;
+    }
+
+    .nav-icon a {
+        font-size: 20px;
+    }
+
+    .main-text h1 {
+        font-size: 36px;
+    }
+
+    .main-text h2 {
+        font-size: 28px;
+    }
+
+    .Products {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 15px;
+    }
+
+    .center-text h2 {
+        font-size: 24px;
+    }
+
+    .modal-content {
+        padding: 25px 15px;
+        width: 95%;
+    }
+}
+
+/* ====================================
+   ANIMATIONS
+   ==================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.trending-Products .row {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+.trending-Products .row:nth-child(n) {
+    animation-delay: calc(0.1s * var(--index, 0));
+}
+
+/* ====================================
+   UTILITY CLASSES
+   ==================================== */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-light {
+    color: var(--text-light);
+}
+
+.hidden {
+    display: none;
+}
+
+/* ====================================
+   SCROLLBAR STYLING
+   ==================================== */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b8e705;
+}
