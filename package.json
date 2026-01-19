@@ -4,8 +4,8 @@
   "description": "E-commerce platform Streezy Drip",
   "main": "backend/server.js",
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "node backend/server.js",
+    "start": "node backend/server-simple.js",
+    "dev": "node backend/server-simple.js",
     "init-db": "node backend/init-db.js"
   },
   "engines": {
