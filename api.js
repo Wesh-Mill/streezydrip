@@ -9,8 +9,8 @@ function initializeAPI() {
     } 
     // Sur GitHub Pages → utiliser le backend public
     else if (window.location.hostname.includes('github.io')) {
-        // ⚠️ À REMPLACER avec l'URL de ton backend déployé (Railway, Render, etc.)
-        API_URL = 'https://streezydrip-backend.railway.app/api';
+        // ⚠️ URL du backend Railway
+        API_URL = 'https://web-production-d81ff.up.railway.app/api';
         console.log('Mode production - Backend Railway');
     }
     else {
