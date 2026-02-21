@@ -1,5 +1,127 @@
 const header = document.querySelector("header");
 
+// ============================================
+// API Configuration
+// ============================================
+let API_URL = '';
+
+function initializeAPI() {
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        API_URL = 'http://localhost:5000/api';
+    } else {
+        API_URL = `http://${window.location.hostname}:5000/api`;
+    }
+}
+
+// ============================================
+// Load Products from API
+// ============================================
+async function loadProductsFromAPI() {
+    console.log('🔄 Démarrage du chargement des produits...');
+    
+    try {
+        initializeAPI();
+        console.log('📡 API URL:', API_URL);
+        console.log('🌐 Hostname:', window.location.hostname);
+        console.log('📍 Protocol:', window.location.protocol);
+        
+        const url = `${API_URL}/products`;
+        console.log('📥 Fetch URL:', url);
+        
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        
+        console.log('📤 Response status:', response.status);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const products = await response.json();
+        console.log('✅ Produits reçus:', products.length, products);
+        displayProducts(products);
+    } catch (error) {
+        console.error('❌ Erreur chargement produits:', error);
+        console.error('Stack:', error.stack);
+        
+        const grid = document.getElementById('products-grid');
+        if (grid) {
+            grid.innerHTML = `<div style="grid-column: 1 / -1; padding: 20px; color: red; text-align: center;">
+                <h3>Erreur de chargement</h3>
+                <p>${error.message}</p>
+                <p style="font-size: 12px; margin-top: 10px;">Vérifie que le serveur backend est en marche sur http://localhost:5000</p>
+            </div>`;
+        }
+    }
+}
+
+function displayProducts(products) {
+    console.log('🎨 Affichage des produits...');
+    
+    const grid = document.querySelector('.Products');
+    
+    if (!grid) {
+        console.error('❌ Element .Products not found in DOM');
+        return;
+    }
+    
+    console.log('✔️ Container trouvé');
+    
+    if (products.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1 / -1; padding: 20px; text-align: center;">Aucun produit disponible</div>`;
+        return;
+    }
+    
+    // Vider le conteneur
+    grid.innerHTML = '';
+    
+    products.forEach((product, index) => {
+        const imageUrl = product.image || './public/image/placeholder.jpg';
+        console.log(`Product ${index + 1}:`, product.name, 'Image:', imageUrl);
+        
+        const productHTML = `
+            <div class="row">
+                <a href="#" onclick="showProductModal('${imageUrl}', '${product.name}', '${product.price} TND'); return false;">
+                    <img src="${imageUrl}" alt="${product.name}" style="max-width: 100%; height: auto;">
+                </a>
+                <div class="Products-text">
+                    <h5>New</h5>
+                    <a href="#" class="btn" onclick="addToCart('${product.name}', '${product.price}')">Add to Cart</a>
+                </div>
+                <div class="heart-icon">
+                    <i class='bx bx-heart'></i>
+                </div>
+                <div class="ratting">
+                    <i class='bx bxs-star'></i>
+                    <i class='bx bxs-star'></i>
+                    <i class='bx bxs-star'></i>
+                    <i class='bx bxs-star-half'></i>
+                </div>
+                <div class="price">
+                    <h4>${product.name}</h4>
+                    <p>${product.price} TND</p>
+                </div>
+            </div>
+        `;
+        grid.insertAdjacentHTML('beforeend', productHTML);
+    });
+    
+    console.log('✅ Tous les produits affichés');
+}
+
+// Charger les produits au démarrage
+document.addEventListener('DOMContentLoaded', loadProductsFromAPI);
+// Aussi charger immédiatement si DOM est déjà prêt
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadProductsFromAPI);
+} else {
+    loadProductsFromAPI();
+}
+
 window.addEventListener("scroll", function() {
     header.classList.toggle("sticky", this.window.scrollY > 0);
 })
@@ -118,23 +240,6 @@ async function submitLogin(event) {
         return;
     }
 
-    // Vérifier d'abord si c'est un admin
-    const isAdmin = await loginAdmin(email, password);
-    
-    if (isAdmin) {
-        // C'est un admin!
-        document.getElementById('login-panel').style.display = 'none';
-        document.getElementById('login-email').value = '';
-        document.getElementById('login-password').value = '';
-        
-        // Afficher l'interface admin après 500ms
-        setTimeout(() => {
-            window.location.href = 'admin.html';
-        }, 500);
-        return;
-    }
-
-    // Sinon, essayer de connecter comme client normal
     const success = await loginUser(email, password);
     if (success) {
         document.getElementById('login-panel').style.display = 'none';
@@ -223,7 +328,7 @@ function displayCart() {
         itemsDiv.innerHTML += `
             <div>
                 ${item.name} - $${item.price}
-                <button onclick="removeFromCart(${index}); event.stopPropagation();" style="display:inline-block; margin-top:10px; margin-left:10px; background:red; background-size: 20px; color:white; padding:0px 0px; border:none; border-radius:5px; cursor:pointer; margin-left:8px; font-weight:bold; font-size:13px; white-space:nowrap; line-height:1.5;">Supprimer</button>
+                <button onclick="removeFromCart(${index}); event.stopPropagation();" style="background:red; color:white; padding:1px 0px; border:none; border-radius:5px; cursor:pointer; margin-left:8px; font-weight:bold; font-size:13px; white-space:nowrap; line-height:1.5;">Supprimer</button>
             </div>
         `;
         total += isNaN(priceValue) ? 0 : priceValue;
@@ -454,60 +559,4 @@ window.onload = async function() {
     }
     
     updateCartBadge(); // Met à jour le badge au chargement
-    
-    // Charger les produits depuis la base de données
-    await loadProducts();
-}
-
-// ===== CHARGER PRODUITS DYNAMIQUEMENT =====
-async function loadProducts() {
-    try {
-        const response = await fetch(`${API_URL}/products`);
-        const products = await response.json();
-        
-        const container = document.getElementById('products-container');
-        if (!container) return;
-        
-        container.innerHTML = ''; // Vider le conteneur
-        
-        if (products.length === 0) {
-            container.innerHTML = '<p style="text-align: center; width: 100%; grid-column: 1/-1;">Aucun produit disponible pour le moment.</p>';
-            return;
-        }
-        
-        // Créer une ligne HTML pour chaque produit
-        products.forEach(product => {
-            const productHTML = `
-                <div class="row">
-                    <a href="#" onclick="showProductModal('${product.image || './public/image/1.jpg'}', '${product.name}', '${product.price}'); return false;">
-                        <img src="${product.image || './public/image/1.jpg'}" alt="${product.name}" onerror="this.src='./public/image/1.jpg'">
-                    </a>
-                    <div class="Products-text">
-                        <h5>${product.category || 'Nouveau'}</h5>
-                        <a href="#" class="btn" onclick="addToCart('${product.name}', '${product.price}'); return false;">Add to Cart</a>
-                    </div>
-                    <div class="heart-icon">
-                        <i class='bx bx-heart'></i>
-                    </div>
-                    <div class="ratting">
-                        <i class='bx bxs-star'></i>
-                        <i class='bx bxs-star'></i>
-                        <i class='bx bxs-star'></i>
-                        <i class='bx bxs-star-half'></i>
-                    </div>
-                    <div class="price">
-                        <h4>${product.name}</h4>
-                        <p>${product.price} TND</p>
-                    </div>
-                </div>
-            `;
-            container.innerHTML += productHTML;
-        });
-    } catch (error) {
-        console.error('Erreur chargement produits:', error);
-        const container = document.getElementById('products-container');
-        if (container) {
-            container.innerHTML = '<p style="text-align: center; width: 100%; grid-column: 1/-1;">Erreur du chargement des produits.</p>';
-        }
-    }
 }

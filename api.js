@@ -75,8 +75,15 @@ async function loginUser(email, password) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
         
-        alert(data.message);
-        window.location.reload(); // Rafraîchir la page
+        // Vérifier si c'est un admin
+        if (data.user && data.user.is_admin === 1) {
+            localStorage.setItem('admin_token', data.token);
+            alert(data.message);
+            window.location.href = 'admin.html'; // Rediriger vers la page admin
+        } else {
+            alert(data.message);
+            window.location.reload(); // Rafraîchir la page pour le client normal
+        }
         return true;
     } catch (error) {
         alert('Erreur de connexion au serveur');
@@ -213,74 +220,4 @@ async function displayUserOrders() {
             </div>
         `;
     });
-}
-
-// ===== ADMIN =====
-
-// Login Admin
-async function loginAdmin(email, password) {
-    try {
-        const response = await fetch(`${API_URL}/admin/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            alert(data.error || 'Erreur de connexion');
-            return false;
-        }
-
-        // Sauvegarder le token admin
-        localStorage.setItem('admin_token', data.token);
-        localStorage.setItem('admin', JSON.stringify(data.admin));
-        
-        return true;
-    } catch (error) {
-        alert('Erreur de connexion au serveur');
-        console.error('Erreur:', error);
-        return false;
-    }
-}
-
-// Vérifier si c'est un admin
-async function verifyAdmin() {
-    const token = localStorage.getItem('admin_token');
-
-    if (!token) {
-        return null;
-    }
-
-    try {
-        const response = await fetch(`${API_URL}/admin/verify`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            return data.admin;
-        } else {
-            localStorage.removeItem('admin_token');
-            localStorage.removeItem('admin');
-            return null;
-        }
-    } catch (error) {
-        console.error('Erreur de vérification admin:', error);
-        return null;
-    }
-}
-
-// Logout Admin
-function logoutAdmin() {
-    localStorage.removeItem('admin_token');
-    localStorage.removeItem('admin');
-    window.location.reload();
 }
