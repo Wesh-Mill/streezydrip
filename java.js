@@ -118,23 +118,6 @@ async function submitLogin(event) {
         return;
     }
 
-    // Vérifier d'abord si c'est un admin
-    const isAdmin = await loginAdmin(email, password);
-    
-    if (isAdmin) {
-        // C'est un admin!
-        document.getElementById('login-panel').style.display = 'none';
-        document.getElementById('login-email').value = '';
-        document.getElementById('login-password').value = '';
-        
-        // Afficher l'interface admin après 500ms
-        setTimeout(() => {
-            window.location.href = 'admin.html';
-        }, 500);
-        return;
-    }
-
-    // Sinon, essayer de connecter comme client normal
     const success = await loginUser(email, password);
     if (success) {
         document.getElementById('login-panel').style.display = 'none';
@@ -223,7 +206,7 @@ function displayCart() {
         itemsDiv.innerHTML += `
             <div>
                 ${item.name} - $${item.price}
-                <button onclick="removeFromCart(${index}); event.stopPropagation();" style="display:inline-block; margin-top:10px; margin-left:10px; background:red; background-size: 20px; color:white; padding:0px 0px; border:none; border-radius:5px; cursor:pointer; margin-left:8px; font-weight:bold; font-size:13px; white-space:nowrap; line-height:1.5;">Supprimer</button>
+                <button onclick="removeFromCart(${index}); event.stopPropagation();" style="background:red; color:white; padding:1px 0px; border:none; border-radius:5px; cursor:pointer; margin-left:8px; font-weight:bold; font-size:13px; white-space:nowrap; line-height:1.5;">Supprimer</button>
             </div>
         `;
         total += isNaN(priceValue) ? 0 : priceValue;
@@ -454,60 +437,4 @@ window.onload = async function() {
     }
     
     updateCartBadge(); // Met à jour le badge au chargement
-    
-    // Charger les produits depuis la base de données
-    await loadProducts();
-}
-
-// ===== CHARGER PRODUITS DYNAMIQUEMENT =====
-async function loadProducts() {
-    try {
-        const response = await fetch(`${API_URL}/products`);
-        const products = await response.json();
-        
-        const container = document.getElementById('products-container');
-        if (!container) return;
-        
-        container.innerHTML = ''; // Vider le conteneur
-        
-        if (products.length === 0) {
-            container.innerHTML = '<p style="text-align: center; width: 100%; grid-column: 1/-1;">Aucun produit disponible pour le moment.</p>';
-            return;
-        }
-        
-        // Créer une ligne HTML pour chaque produit
-        products.forEach(product => {
-            const productHTML = `
-                <div class="row">
-                    <a href="#" onclick="showProductModal('${product.image || './public/image/1.jpg'}', '${product.name}', '${product.price}'); return false;">
-                        <img src="${product.image || './public/image/1.jpg'}" alt="${product.name}" onerror="this.src='./public/image/1.jpg'">
-                    </a>
-                    <div class="Products-text">
-                        <h5>${product.category || 'Nouveau'}</h5>
-                        <a href="#" class="btn" onclick="addToCart('${product.name}', '${product.price}'); return false;">Add to Cart</a>
-                    </div>
-                    <div class="heart-icon">
-                        <i class='bx bx-heart'></i>
-                    </div>
-                    <div class="ratting">
-                        <i class='bx bxs-star'></i>
-                        <i class='bx bxs-star'></i>
-                        <i class='bx bxs-star'></i>
-                        <i class='bx bxs-star-half'></i>
-                    </div>
-                    <div class="price">
-                        <h4>${product.name}</h4>
-                        <p>${product.price} TND</p>
-                    </div>
-                </div>
-            `;
-            container.innerHTML += productHTML;
-        });
-    } catch (error) {
-        console.error('Erreur chargement produits:', error);
-        const container = document.getElementById('products-container');
-        if (container) {
-            container.innerHTML = '<p style="text-align: center; width: 100%; grid-column: 1/-1;">Erreur du chargement des produits.</p>';
-        }
-    }
 }

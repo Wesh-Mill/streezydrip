@@ -7,7 +7,7 @@ const verifyToken = (req, res, next) => {
         return res.status(401).json({ message: 'Token manquant' });
     }
 
-    jwt.verify(token, process.env.TOKEN_SECRET || 'secret_key_admin', (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
             return res.status(403).json({ message: 'Token invalide' });
         }
@@ -16,4 +16,4 @@ const verifyToken = (req, res, next) => {
     });
 };
 
-module.exports = { verifyToken };
+module.exports = verifyToken;

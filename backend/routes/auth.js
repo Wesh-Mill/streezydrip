@@ -2,7 +2,6 @@ const express = require('express');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const db = require('../database');
-const { verifyToken } = require('../middleware');
 
 const router = express.Router();
 
@@ -70,7 +69,7 @@ router.post('/login', (req, res) => {
         // Générer le token JWT
         const token = jwt.sign(
             { id: user.id, email: user.email, username: user.username },
-            process.env.TOKEN_SECRET || 'secret_key_user',
+            process.env.JWT_SECRET,
             { expiresIn: '24h' }
         );
 
@@ -80,7 +79,8 @@ router.post('/login', (req, res) => {
             user: {
                 id: user.id,
                 username: user.username,
-                email: user.email
+                email: user.email,
+                is_admin: user.is_admin || 0
             }
         });
     });
@@ -94,7 +94,7 @@ router.get('/verify', (req, res) => {
         return res.status(401).json({ message: 'Token manquant' });
     }
 
-    jwt.verify(token, process.env.TOKEN_SECRET || 'secret_key_user', (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
             return res.status(403).json({ message: 'Token invalide' });
         }
@@ -106,19 +106,4 @@ router.get('/verify', (req, res) => {
     });
 });
 
-// Get all users (admin only)
-router.get('/all-users', verifyToken, (req, res) => {
-    if (req.user.role !== 'admin') {
-        return res.status(403).json({ error: 'Accès refusé' });
-    }
-
-    db.all('SELECT id, username, email, created_at FROM users', (err, users) => {
-        if (err) {
-            return res.status(500).json({ error: 'Erreur serveur' });
-        }
-        res.json(users);
-    });
-});
-
 module.exports = router;
-

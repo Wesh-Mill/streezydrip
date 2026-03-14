@@ -12,12 +12,27 @@ const db = new sqlite3.Database(dbPath, (err) => {
 });
 
 function initializeDatabase() {
+    // create tables if they don't exist
     db.run(`
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
             email TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL,
+            is_admin INTEGER DEFAULT 0,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS products (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            price REAL NOT NULL,
+            category TEXT NOT NULL,
+            stock INTEGER DEFAULT 0,
+            description TEXT,
+            image TEXT,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     `);
@@ -34,28 +49,17 @@ function initializeDatabase() {
         )
     `);
 
-    db.run(`
-        CREATE TABLE IF NOT EXISTS admins (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            email TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL,
-            name TEXT,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )
-    `);
-
-    db.run(`
-        CREATE TABLE IF NOT EXISTS products (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            price REAL NOT NULL,
-            description TEXT,
-            image TEXT,
-            category TEXT,
-            stock INTEGER DEFAULT 0,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )
-    `);
+    // migration: add is_admin column if the table already existed without it
+    db.all("PRAGMA table_info(users)", [], (err, cols) => {
+        if (err) return;
+        const hasAdmin = cols.some(c => c.name === 'is_admin');
+        if (!hasAdmin) {
+            db.run('ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0', (alterErr) => {
+                if (alterErr) console.error('Migration error adding is_admin column:', alterErr);
+                else console.log('✅ Added is_admin column to users table');
+            });
+        }
+    });
 }
 
 module.exports = db;

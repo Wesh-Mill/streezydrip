@@ -1,14 +1,14 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
 const path = require('path');
+const cors = require('cors');
 const bcryptjs = require('bcryptjs');
 const db = require('./database');
+
 const authRoutes = require('./routes/auth');
 const orderRoutes = require('./routes/orders');
 const adminRoutes = require('./routes/admin');
-const productRoutes = require('./routes/products');
-const uploadRoutes = require('./routes/upload');
+const productsRoutes = require('./routes/products');
 
 const app = express();
 
@@ -16,42 +16,36 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Servir les fichiers statiques (uploads)
+// Static files (uploads)
 app.use('/public', express.static(path.join(__dirname, '../public')));
 
-// Initialiser l'admin au démarrage
+// Admin & products initialization
 function initializeAdminAccount() {
-    const adminEmail = 'admin@streezydrip.com';
-    const adminPassword = 'Admin123456!';
+    const adminEmail = 'wesh@admin.tn';
+    const adminPassword = 'WeshMill2025';
+    const adminUsername = 'weshmill';
     const hashedPassword = bcryptjs.hashSync(adminPassword, 10);
 
-    // Vérifier si l'admin existe
-    db.get('SELECT * FROM admins WHERE email = ?', [adminEmail], (err, admin) => {
+    db.get('SELECT * FROM users WHERE email = ? AND is_admin = 1', [adminEmail], (err, user) => {
         if (err) {
             console.error('Erreur:', err);
             return;
         }
-
-        if (!admin) {
-            // Créer l'admin
+        if (!user) {
             db.run(
-                'INSERT INTO admins (email, password, name) VALUES (?, ?, ?)',
-                [adminEmail, hashedPassword, 'Admin Streezy Drip'],
+                'INSERT INTO users (username, email, password, is_admin) VALUES (?, ?, ?, 1)',
+                [adminUsername, adminEmail, hashedPassword],
                 (err) => {
-                    if (err) {
-                        console.error('Erreur création admin:', err);
-                    } else {
-                        console.log('✅ Admin créé: admin@streezydrip.com / Admin123456!');
-                    }
+                    if (err) console.error('Erreur création admin:', err);
+                    else console.log(`✅ Admin account created: ${adminEmail} / ${adminPassword}`);
                 }
             );
         } else {
-            console.log('✅ Admin existe déjà');
+            console.log('✅ Admin user already exists');
         }
     });
 }
 
-// Initialiser les produits au démarrage
 function initializeProducts() {
     const products = [
         { name: 'Half Running Set', price: 99, category: 'Vêtements', description: 'Ensemble de running demi-complet', image: '/public/image/1.jpg', stock: 50 },
@@ -64,7 +58,6 @@ function initializeProducts() {
         { name: 'La Reine', price: 99, category: 'Vêtements', description: 'Collection La Reine', image: '/public/image/8.jpg', stock: 50 }
     ];
 
-    // Vérifier si les produits existent
     db.get('SELECT COUNT(*) as count FROM products', (err, result) => {
         if (err || result.count === 0) {
             console.log('Initialisation des produits...');
@@ -84,7 +77,7 @@ function initializeProducts() {
     });
 }
 
-// Initialiser au démarrage après 500ms (laisser le temps à la DB de se connecter)
+// run initialisers after the database connection has had a moment to set up
 setTimeout(() => {
     initializeAdminAccount();
     initializeProducts();
@@ -94,8 +87,7 @@ setTimeout(() => {
 app.use('/api/auth', authRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/upload', uploadRoutes);
+app.use('/api/products', productsRoutes);
 
 // Routes de test
 app.get('/api/test', (req, res) => {

@@ -3,11 +3,28 @@ let ADMIN_TOKEN = '';
 
 // Initialize API URL
 function initializeAPI() {
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    const hostname = window.location.hostname;
+    const protocol = window.location.protocol === 'https:' ? 'https' : 'http';
+
+    // Si on ouvre le fichier directement (file://) ou si le hostname est vide,
+    // on utilise le backend local
+    if (window.location.protocol === 'file:' || !hostname) {
         API_URL = 'http://localhost:5000/api';
-    } else {
-        API_URL = `http://${window.location.hostname}:5000/api`;
     }
+    // En local (localhost ou 127.0.0.1)
+    else if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        API_URL = 'http://localhost:5000/api';
+    }
+    // Si le site est hébergé sur GitHub Pages
+    else if (hostname.includes('github.io')) {
+        API_URL = 'https://web-production-d81ff.up.railway.app/api';
+        console.log('Mode production - Backend Railway');
+    }
+    // Sur un réseau local ou domaine personnalisé
+    else {
+        API_URL = `${protocol}://${hostname}:5000/api`;
+    }
+
     console.log('API URL:', API_URL);
 }
 

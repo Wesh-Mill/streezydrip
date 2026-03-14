@@ -1,6 +1,6 @@
 const express = require('express');
 const db = require('../database');
-const { verifyToken } = require('../middleware');
+const verifyToken = require('../middleware');
 
 const router = express.Router();
 
@@ -48,24 +48,6 @@ router.get('/my-orders', verifyToken, (req, res) => {
             }));
 
             res.json(parsedOrders);
-        }
-    );
-});
-
-// Récupérer TOUTES les commandes (admin only)
-router.get('/all', verifyToken, (req, res) => {
-    if (req.user.role !== 'admin') {
-        return res.status(403).json({ error: 'Accès refusé - Admin requis' });
-    }
-
-    db.all(
-        'SELECT * FROM orders ORDER BY created_at DESC',
-        (err, orders) => {
-            if (err) {
-                return res.status(500).json({ message: 'Erreur lors de la récupération des commandes' });
-            }
-
-            res.json(orders);
         }
     );
 });

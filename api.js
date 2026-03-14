@@ -3,19 +3,27 @@ let API_URL = 'http://localhost:5000/api';
 
 // Détecte automatiquement si on est en production ou local
 function initializeAPI() {
-    // Sur localhost ou 127.0.0.1 → utiliser localhost:5000
-    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    const hostname = window.location.hostname;
+    const protocol = window.location.protocol === 'https:' ? 'https' : 'http';
+
+    // Si on ouvre le fichier directement (file://) ou si le hostname est vide,
+    // on utilise le backend local
+    if (window.location.protocol === 'file:' || !hostname) {
         API_URL = 'http://localhost:5000/api';
-    } 
+    }
+    // Sur localhost ou 127.0.0.1 → utiliser localhost:5000
+    else if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        API_URL = 'http://localhost:5000/api';
+    }
     // Sur GitHub Pages → utiliser le backend public
-    else if (window.location.hostname.includes('github.io')) {
+    else if (hostname.includes('github.io')) {
         // ⚠️ URL du backend Railway
         API_URL = 'https://web-production-d81ff.up.railway.app/api';
         console.log('Mode production - Backend Railway');
     }
     else {
-        // Sur un réseau local avec IP
-        API_URL = `http://${window.location.hostname}:5000/api`;
+        // Sur un réseau local avec IP ou domaine personnalisé
+        API_URL = `${protocol}://${hostname}:5000/api`;
     }
     
     console.log('API URL:', API_URL);
@@ -56,28 +64,54 @@ async function registerUser(username, email, password, confirmPassword) {
 // Connexion
 async function loginUser(email, password) {
     try {
-        const response = await fetch(`${API_URL}/auth/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        });
+        let response;
+        let data;
 
-        const data = await response.json();
+        // Vérifier si c'est un admin
+        if (email === 'admin@streezydrip.com') {
+            response = await fetch(`${API_URL}/admin/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+            data = await response.json();
 
-        if (!response.ok) {
+            if (!response.ok) {
+                alert(data.message);
+                return false;
+            }
+
+            // Sauvegarder le token admin
+            localStorage.setItem('admin_token', data.token);
+            localStorage.setItem('admin', JSON.stringify(data.admin));
             alert(data.message);
-            return false;
-        }
+            window.location.href = 'admin.html'; // Rediriger vers la page admin
+            return true;
+        } else {
+            // Connexion utilisateur normal
+            response = await fetch(`${API_URL}/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+            data = await response.json();
 
-        // Sauvegarder le token et les infos utilisateur
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        
-        alert(data.message);
-        window.location.reload(); // Rafraîchir la page
-        return true;
+            if (!response.ok) {
+                alert(data.message);
+                return false;
+            }
+
+            // Sauvegarder le token et les infos utilisateur
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            alert(data.message);
+            window.location.reload(); // Rafraîchir la page pour le client normal
+            return true;
+        }
     } catch (error) {
         alert('Erreur de connexion au serveur');
         console.error('Erreur:', error);
@@ -213,74 +247,4 @@ async function displayUserOrders() {
             </div>
         `;
     });
-}
-
-// ===== ADMIN =====
-
-// Login Admin
-async function loginAdmin(email, password) {
-    try {
-        const response = await fetch(`${API_URL}/admin/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            alert(data.error || 'Erreur de connexion');
-            return false;
-        }
-
-        // Sauvegarder le token admin
-        localStorage.setItem('admin_token', data.token);
-        localStorage.setItem('admin', JSON.stringify(data.admin));
-        
-        return true;
-    } catch (error) {
-        alert('Erreur de connexion au serveur');
-        console.error('Erreur:', error);
-        return false;
-    }
-}
-
-// Vérifier si c'est un admin
-async function verifyAdmin() {
-    const token = localStorage.getItem('admin_token');
-
-    if (!token) {
-        return null;
-    }
-
-    try {
-        const response = await fetch(`${API_URL}/admin/verify`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            return data.admin;
-        } else {
-            localStorage.removeItem('admin_token');
-            localStorage.removeItem('admin');
-            return null;
-        }
-    } catch (error) {
-        console.error('Erreur de vérification admin:', error);
-        return null;
-    }
-}
-
-// Logout Admin
-function logoutAdmin() {
-    localStorage.removeItem('admin_token');
-    localStorage.removeItem('admin');
-    window.location.reload();
 }

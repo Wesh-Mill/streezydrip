@@ -1,29 +1,27 @@
-const sqlite3 = require('sqlite3').verbose();
 const bcryptjs = require('bcryptjs');
-const path = require('path');
+const db = require('./database');
 
-const dbPath = path.join(__dirname, 'streezydrip.db');
-const db = new sqlite3.Database(dbPath);
+// Créer un utilisateur admin avec de nouveaux identifiants
+const adminEmail = 'wesh@admin.tn';
+const adminPassword = 'WeshMill2025';
+const adminUsername = 'weshmill';
 
-// Ton email et mot de passe
-const adminEmail = 'admin@streezydrip.com';
-const adminPassword = 'Admin123456!';
-
-// Hasher le mot de passe
 const hashedPassword = bcryptjs.hashSync(adminPassword, 10);
 
-// Insérer l'admin
 db.run(
-    'INSERT OR REPLACE INTO admins (email, password, name) VALUES (?, ?, ?)',
-    [adminEmail, hashedPassword, 'Wesh Mill'],
+    `INSERT OR REPLACE INTO users (username, email, password, is_admin) 
+     VALUES (?, ?, ?, 1)`,
+    [adminUsername, adminEmail, hashedPassword],
     (err) => {
         if (err) {
             console.error('Erreur:', err);
         } else {
-            console.log('✅ Admin créé avec succès!');
-            console.log(`Email: ${adminEmail}`);
-            console.log(`Mot de passe: ${adminPassword}`);
+            console.log('\n✅ Admin créé avec succès!\n');
+            console.log('📌 Nouveaux identifiants admin:');
+            console.log('   Email:', adminEmail);
+            console.log('   Mot de passe:', adminPassword);
+            console.log('\n⚠️  Changez le mot de passe après la première connexion!\n');
         }
-        db.close();
+        process.exit(0);
     }
 );
