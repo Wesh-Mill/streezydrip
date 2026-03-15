@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -14,8 +15,11 @@ app.use(express.json());
 app.use('/public', express.static(path.join(__dirname, '../public')));
 
 // Fichier de données
-const dataDir = path.join(__dirname, '../data');
-if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir);
+const isVercel = !!process.env.VERCEL;
+const dataDir = isVercel
+  ? path.join(os.tmpdir(), 'streezydrip-data')
+  : path.join(__dirname, '../data');
+if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
 const productsFile = path.join(dataDir, 'products.json');
 const usersFile = path.join(dataDir, 'users.json');
@@ -210,9 +214,13 @@ app.get('/api/test', (req, res) => {
     res.json({ message: 'Serveur Streezy Drip est actif!' });
 });
 
-const PORT = process.env.PORT || 5000;
+if (require.main === module) {
+    const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-    console.log(`✅ Serveur Streezy Drip lancé sur port ${PORT}`);
-    console.log(`📦 API disponible sur http://localhost:${PORT}/api`);
-});
+    app.listen(PORT, () => {
+        console.log(`✅ Serveur Streezy Drip lancé sur port ${PORT}`);
+        console.log(`📦 API disponible sur http://localhost:${PORT}/api`);
+    });
+}
+
+module.exports = app;
