@@ -20,12 +20,4 @@
       "dest": "/$1"
     }
   ],
-  "functions": {
-    "api/index.js": {
-      "runtime": "nodejs20.x"
-    },
-    "api/[...all].js": {
-      "runtime": "nodejs20.x"
-    }
-  }
 }
