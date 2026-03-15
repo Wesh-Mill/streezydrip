@@ -438,3 +438,4 @@ window.onload = async function() {
     
     updateCartBadge(); // Met à jour le badge au chargement
 }
+
